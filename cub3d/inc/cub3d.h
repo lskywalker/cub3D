@@ -6,7 +6,7 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/22 10:58:56 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/27 16:59:53 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/02/28 10:25:20 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,4 +328,5 @@ int				get_g(unsigned int trgb);
 int				get_b(unsigned int trgb);
 unsigned int	ft_shadow(unsigned int colour, double distance);
 void			ft_sortcolours(char **sub, t_vars *vars, int f_or_c);
+void			getspriteimg_addr(t_vars *vars, t_data *img);
 #endif

@@ -6,7 +6,7 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/20 10:51:13 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/27 17:03:06 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/02/28 10:26:17 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ void	getspriteimg_addr(t_vars *vars, t_data *img)
 	&vars->spr->img_width, &vars->spr->img_height);
 	img->addr_spr = mlx_get_data_addr(img->img_spr, &vars->spr->bitspp_spr,
 	&vars->spr->line_spr, &img->endian);
-	img->img_spr2 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex2,
-	&vars->spr->img_width, &vars->spr->img_height);
-	img->addr_spr2 = mlx_get_data_addr(img->img_spr2, &vars->spr->bitspp_spr2,
-	&vars->spr->line_spr2, &img->endian);
-	img->img_spr3 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex3,
-	&vars->spr->img_width, &vars->spr->img_height);
-	img->addr_spr3 = mlx_get_data_addr(img->img_spr3, &vars->spr->bitspp_spr3,
-	&vars->spr->line_spr3, &img->endian);
+	// img->img_spr2 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex2,
+	// &vars->spr->img_width, &vars->spr->img_height);
+	// img->addr_spr2 = mlx_get_data_addr(img->img_spr2, &vars->spr->bitspp_spr2,
+	// &vars->spr->line_spr2, &img->endian);
+	// img->img_spr3 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex3,
+	// &vars->spr->img_width, &vars->spr->img_height);
+	// img->addr_spr3 = mlx_get_data_addr(img->img_spr3, &vars->spr->bitspp_spr3,
+	// &vars->spr->line_spr3, &img->endian);
 }

@@ -6,7 +6,7 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/23 20:27:39 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/27 17:02:18 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/02/28 10:25:58 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,6 +342,7 @@ void	ft_getimgaddr(t_vars *vars, t_data *img)
 	&vars->sc->nesw->img_width_s, &vars->sc->nesw->img_height_s);
 	img->addr_s = mlx_get_data_addr(img->img_s, &vars->sc->nesw->bitspp_s,
 	&vars->sc->nesw->line_s, &img->endian);
+	getspriteimg_addr(vars, img);
 	if (vars->floor->tex == 1)
 	{
 		img->img_f = mlx_png_file_to_image(vars->run->mlx,
@@ -356,13 +357,13 @@ void	ft_getimgaddr(t_vars *vars, t_data *img)
 		img->addr_c = mlx_get_data_addr(img->img_c, &vars->floor->bitspp_c,
 		&vars->floor->line_c, &img->endian);
 	}
-	if (vars->weapon->found == 1)
-	{
-		vars->weapon->img = mlx_png_file_to_image(vars->run->mlx,
-		vars->weapon->weapontex, &vars->weapon->width, &vars->weapon->height);
-		vars->weapon->addr = mlx_get_data_addr(vars->weapon->img, 
-		&vars->weapon->bitspp, &vars->weapon->line, &img->endian);
-	}
+	// if (vars->weapon->found == 1)
+	// {
+	// 	vars->weapon->img = mlx_png_file_to_image(vars->run->mlx,
+	// 	vars->weapon->weapontex, &vars->weapon->width, &vars->weapon->height);
+	// 	vars->weapon->addr = mlx_get_data_addr(vars->weapon->img, 
+	// 	&vars->weapon->bitspp, &vars->weapon->line, &img->endian);
+	// }
 }
 
 double	sprite(t_vars *vars, int x, int y)
