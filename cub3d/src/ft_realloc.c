@@ -6,35 +6,22 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/19 18:34:28 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/26 19:27:32 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/10 21:00:29 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int		*ft_memcpy(int *dest, int *src, size_t n)
+int			**ft_memcpyint(int **dest, int **src, size_t n, t_vars *vars)
 {
-	size_t		i;
-
-	i = 0;
-	while (i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	return (dest);
-}
-
-int		**ft_memcpyint(int **dest, int **src, size_t n, size_t linelen)
-{
-	size_t		i;
+	int			i;
 	size_t		j;
 
 	j = 0;
 	while (j < n)
 	{
 		i = 0;
-		while (i < linelen)
+		while (i < vars->linelen[j])
 		{
 			dest[j][i] = src[j][i];
 			i++;
@@ -64,7 +51,7 @@ double		**ft_memcpydouble(double **dest,
 	return (dest);
 }
 
-int		**ft_reallocmap(int **array, size_t newsize, t_vars *vars)
+int			**ft_reallocmap(int **array, size_t newsize, t_vars *vars)
 {
 	int		**newarray;
 	size_t	i;
@@ -75,20 +62,20 @@ int		**ft_reallocmap(int **array, size_t newsize, t_vars *vars)
 	newarray = (int **)malloc(sizeof(int **) * newsize);
 	if (!newarray)
 		ft_error("\e[33mMalloc failed\n\e[39m");
-	while (i + 1 < newsize)
+	while (i < newsize - 1)
 	{
-		newarray[i] = (int*)malloc(sizeof(int *) * vars->linenumb[i]);
+		newarray[i] = (int*)malloc(sizeof(int *) * vars->linelen[i]);
 		if (!newarray[i])
 			ft_error("\e[33mMalloc failed\n\e[39m");
 		i++;
 	}
-	newarray = ft_memcpyint(newarray, array, newsize - 1, vars->maplinelen);
+	newarray = ft_memcpyint(newarray, array, newsize - 1, vars);
 	ft_free((void **)array, newsize - 1);
 	free(array);
 	return (newarray);
 }
 
-double	**ft_reallocsprit(double **array, size_t newsize)
+double		**ft_reallocsprit(double **array, size_t newsize)
 {
 	double	**newarray;
 	size_t	i;
@@ -97,12 +84,14 @@ double	**ft_reallocsprit(double **array, size_t newsize)
 	if (newsize == 1)
 		return (malloc(sizeof(double **) * 1));
 	newarray = (double **)malloc(sizeof(double **) * newsize);
-	while (i + 1 < newsize)
+	while (i < newsize - 1)
 	{
-		newarray[i] = (double*)malloc(sizeof(double *) * 3);
+		newarray[i] = (double*)malloc(sizeof(double *) * 5);
+		if (!newarray[i])
+			ft_error("\e[33mMalloc failed\n\e[39m");
 		i++;
 	}
-	newarray = ft_memcpydouble(newarray, array, newsize - 1, 3);
+	newarray = ft_memcpydouble(newarray, array, newsize - 1, 5);
 	ft_free((void **)array, (int)newsize - 1);
 	free(array);
 	return (newarray);

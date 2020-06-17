@@ -5,71 +5,89 @@
 /*                                                     +:+                    */
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/13 11:01:32 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/26 19:27:31 by lsmit         ########   odam.nl         */
+/*   Created: 2020/02/13 11:01:32 by lsmit         #+#    #+#                 */
+/*   Updated: 2020/06/17 16:28:55 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	ft_mapparser(t_vars *vars, char *file, int j)
+void		ft_mapparser2(t_vars *vars, char file, int j)
+{
+	if (file == 'N' || file == 'E' ||
+		file == 'S' || file == 'W')
+	{
+		vars->pos->spawnpos = file;
+		vars->pos->posx = vars->mapx + 0.5;
+		vars->pos->posy = j + 0.5;
+		file = '0';
+		vars->error->pos_found++;
+	}
+	if (file == '1' || file == '2' || file == '0')
+	{
+		vars->map[j][vars->mapx] = file - '0';
+		if (vars->map[j][vars->mapx] == 2)
+		{
+			sprite(vars, vars->mapx, j, 1.0);
+			vars->spr->numsprites++;
+		}
+		vars->mapx++;
+	}
+	if (file == ' ')
+	{
+		vars->map[j][vars->mapx] = 8;
+		vars->mapx++;
+	}
+}
+
+void		ft_mapparser(t_vars *vars, char *file, int j)
 {
 	int			i;
-	int			x;
 
 	i = 0;
-	x = 0;
+	vars->mapx = 0;
 	vars->map = ft_reallocmap(vars->map, j + 1, vars);
 	vars->maplinelen = ft_strlen(file) + 1;
-	vars->linenumb = ft_realloc(vars->linenumb, j + 1);
-	if (!vars->linenumb || !vars->map)
+	vars->linelen = ft_realloc(vars->linelen, j + 1);
+	if (!vars->linelen || !vars->map)
 		ft_error("\e[33mMalloc failed\n\e[39m");
-	vars->linenumb[j] = vars->maplinelen;
+	vars->linelen[j] = vars->maplinelen;
 	vars->map[j] = malloc(sizeof(int) * vars->maplinelen);
 	if (!vars->map[j])
 		ft_error("\e[33mMalloc failed\n\e[39m");
-	while (file[i])
+	while (file[i] != '\0')
 	{
-		if (file[i] == 'N' || file[i] == 'E' ||
-		file[i] == 'S' || file[i] == 'W')
-		{
-			vars->pos->spawnpos = file[i];
-			vars->pos->posx = x + 0.5;
-			vars->pos->posy = j + 0.5;
-			file[i] = '0';
-			vars->error->pos_found++;
-		}
-		if (file[i] != ' ')
-		{
-			vars->map[j][x] = file[i] - '0';
-			if (vars->map[j][x] == 2)
-			{
-				sprite(vars, x, j);
-				vars->spr->numsprites++;
-			}
-			x++;
-		}
+		if (ft_validchar(file[i], vars))
+			ft_error("\e[33mInvalid character in map\n\e[39m");
+		ft_mapparser2(vars, file[i], j);
 		i++;
 	}
-	vars->mapheight = j + 1;
 }
 
-int		ft_outofmap(t_vars *vars, int x, int y)
+int			ft_outofmap(t_vars *vars, int x, int y)
 {
-	if (vars->linenumb[y + 1] < vars->linenumb[y] &&
-	x > vars->linenumb[y + 1] && y >= vars->mapheight)
+	static int i = 0;
+
+	i++;
+	if (i > 80000)
+		ft_error("\e[33mMap is too big\n\e[39m");
+	if (vars->linelen[y + 1] < vars->linelen[y] ||
+	x > vars->linelen[y + 1] || y > vars->mapheight)
 		return (1);
 	return (0);
 }
+// IETS MIS HIER MET DE IF STATEMENTS VOOR LINELENGTH ENZO
 
-void	ft_checkmapvalid(t_vars *vars, int x, int y)
+void		ft_checkmapvalid(t_vars *vars, int x, int y)
 {
-	if (ft_outofmap(vars, x, y))
-		ft_error("\e[33mInvalid map\n\e[39m");
-	if (vars->map[y][x] == 0)
+	if (vars->map[y][x] == 0 || vars->map[y][x] == 8)
 	{
-		if (x == 0 || x >= vars->linenumb[y] || y == 0 || y == vars->mapheight)
-			ft_error("\e[33mInvalid map\n\e[39m");
+		if (ft_outofmap(vars, x, y))
+			ft_error("\e[33mInvalid map4\n\e[39m");
+		if (vars->map[y][x] == 8)
+			ft_error("\e[33mInvalid map5\n\e[39m");
+		if (x == 0 || x >= vars->linelen[y] || y == 0 || y == vars->mapheight)
+			ft_error("\e[33mInvalid map6\n\e[39m");
 		vars->map[y][x] = 9;
 		ft_checkmapvalid(vars, x, y + 1);
 		ft_checkmapvalid(vars, x, y - 1);
@@ -84,7 +102,7 @@ void	ft_checkmapvalid(t_vars *vars, int x, int y)
 		ft_error("\e[33mInvalid map\n\e[39m");
 }
 
-void	ft_resetmap(t_vars *vars)
+void		ft_resetmap(t_vars *vars)
 {
 	int	x;
 	int	y;
@@ -93,7 +111,7 @@ void	ft_resetmap(t_vars *vars)
 	while (y < vars->mapheight)
 	{
 		x = 0;
-		while (x < vars->linenumb[y])
+		while (x < vars->linelen[y])
 		{
 			if (vars->map[y][x] == 9)
 				vars->map[y][x] = 0;

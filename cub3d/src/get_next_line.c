@@ -6,7 +6,7 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/25 20:22:45 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/26 19:27:36 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/11 14:11:27 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char		*ft_strjoin(char *line, char *buf)
 	return (res);
 }
 
-int				get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char		buf[1000];
 	ssize_t			sc;

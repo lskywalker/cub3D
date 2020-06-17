@@ -53,8 +53,8 @@ int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color, char *
 
   //  dest_w = (FONT_WIDTH*5)/7;   /// ratio with X11 standard mlx_string_put
   //  dest_h = (font_atlas.height*5)/7;
-  dest_w = FONT_WIDTH;
-  dest_h = font_atlas.height;
+  dest_w = FONT_WIDTH * 3;
+  dest_h = font_atlas.height  * 3;
   y = y - (dest_h*3)/4;
 
   pos = 0;

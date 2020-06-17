@@ -6,19 +6,23 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/22 10:58:56 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/28 10:25:20 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/11 20:46:44 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifndef BONUS
+#  include <stdio.h>
+# endif
+
 # include "../mlx/mlx.h"
 # include <math.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <string.h>
 
 typedef struct	s_colours
 {
@@ -92,6 +96,12 @@ typedef struct	s_sprite
 	int			numsprites;
 	int			img_width;
 	int			img_height;
+	int			img_width2;
+	int			img_height2;
+	int			udiv;
+	int			vdiv;
+	int			vmove;
+	int			vmovescreen;
 }				t_sprite;
 
 typedef struct	s_screen
@@ -197,6 +207,7 @@ typedef struct	s_keycheck
 	int			d;
 	int			left;
 	int			right;
+	int			space;
 }				t_keycheck;
 
 typedef struct	s_error
@@ -260,6 +271,12 @@ typedef struct	s_weapon
 	int			found;
 }				t_weapon;
 
+typedef struct	s_window
+{
+	int			sizex;
+	int			sizey;
+}				t_window;
+
 typedef struct	s_vars
 {
 	int			pressed;
@@ -268,9 +285,14 @@ typedef struct	s_vars
 	int			sensitivity;
 	int			fd;
 	int			**map;
+	int			mapx;
 	size_t		maplinelen;
-	int			*linenumb;
+	int			*linelen;
 	int			mapheight;
+	int			bonus;
+	int			screenshot;
+	long long	points;
+	int			health;
 	t_screen	*sc;
 	t_pos		*pos;
 	t_run		*run;
@@ -280,6 +302,7 @@ typedef struct	s_vars
 	t_floor		*floor;
 	t_data		*img;
 	t_weapon	*weapon;
+	t_window	*window;
 }				t_vars;
 
 unsigned int	ft_getwidth(int i, const char *input);
@@ -302,20 +325,24 @@ void			ft_resetmap(t_vars *vars);
 int				create_trgb(int r, int g, int b);
 int				ft_validcolours(char *col);
 void			ft_resolutioncheck(t_vars *vars, char **sub, char *file);
-void			ft_pathcheck(t_vars *vars, char **sub, char *file, int i);
-int				ft_floorcheck(t_vars *vars, char **sub, char *file);
-int				ft_ceilingcheck(t_vars *vars, char **sub, char *file);
+int				ft_pathcheck(t_vars *vars, char **sub, char *file, int i);
+int				ft_southpath(char *file, char **sub, int i, t_vars *vars);
+int				ft_northpath(char *file, char **sub, int i, t_vars *vars);
+void			ft_floorcheck(t_vars *vars, char **sub, char *file);
+int				ft_floorcheck2(t_vars *vars, char **str, int a);
+void			ft_ceilingcheck(t_vars *vars, char **sub, char *file);
+int				ft_ceilingcheck2(t_vars *vars, char **str, int a);
 void			ft_fdcheck(t_vars *vars, char *tex, int type);
-void			ft_spritecheck(t_vars *vars, char **sub, char *file, int i);
-char			**ft_split(char const *s, char c);
-double			sprite(t_vars *vars, int x, int y);
+int				ft_spritecheck(t_vars *vars, char **sub, char *file, int i);
+char			**ft_split(char *s, char c);
+double			sprite(t_vars *vars, int x, int y, double type);
 int				*ft_realloc(int *array, size_t newsize);
 int				**ft_reallocmap(int **array, size_t newsize, t_vars *vars);
 double			**ft_reallocsprit(double **array, size_t newsize);
 void			ft_getspritedist(t_vars *vars);
 void			ft_sortsprites(t_vars *vars);
-int				ft_floorwithcolour(t_vars *vars, char **sub);
-int				ft_ceilingwithcolour(t_vars *vars, char **sub);
+void			ft_floorwithcolour(t_vars *vars, char **sub);
+void			ft_ceilingwithcolour(t_vars *vars, char **sub);
 void			ft_free(void **sub, int j);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			ft_floorcast(t_vars *vars);
@@ -329,4 +356,39 @@ int				get_b(unsigned int trgb);
 unsigned int	ft_shadow(unsigned int colour, double distance);
 void			ft_sortcolours(char **sub, t_vars *vars, int f_or_c);
 void			getspriteimg_addr(t_vars *vars, t_data *img);
+void			ft_weapon(t_vars *vars);
+void			ft_castcoin(t_vars *vars, int stripe, int i);
+int				ft_emptyline(char *line);
+void			ft_getdirection(t_vars *vars);
+void			ft_drawwally(t_vars *vars, int drawend, int x, int y);
+void			ft_wallcalc(t_vars *vars, t_ray *ray);
+void			ft_wallcameracalc(t_vars *vars, t_ray *ray, int x);
+void			ft_floorcalc(t_vars *vars, int y);
+void			ft_floordrawx(t_vars *vars, int x, int y);
+int				ft_quit(t_vars *vars);
+int				ft_keypress(int keycode, t_vars *vars);
+int				ft_keyrelease(int keycode, t_vars *vars);
+int				ft_keycheck(t_vars *vars);
+void			ft_init(t_vars *vars);
+void			ft_render_frame(t_vars *vars);
+void			ft_filereader(t_vars *vars, int j);
+void			ft_getlinefunction(char *file, t_vars *vars);
+int				ft_playsound(char *filename);
+void			ft_sprite2castcalc(t_vars *vars, int i);
+void			ft_screenshotcheck(char *input, t_vars *vars);
+void			ft_points(t_vars *vars);
+void			ft_health(t_vars *vars);
+void			ft_getimgaddr(t_vars *vars, t_data *img);
+int				ft_validchar(char c, t_vars *vars);
+void			ft_declare(t_vars *vars);
+void			ft_declare2(t_vars *vars);
+void			ft_rungame(t_vars *vars);
+void			ft_readfile(t_vars *vars);
+int				*ft_memcpy(int *dest, int *src, size_t n);
+void			make_screenshot(t_vars *vars);
+void			ft_bzero(void *s, size_t l);
+int				ft_checkxpm(char *tex);
+int				ft_strcmp(char *s1, char *s2);
+void			ft_knife(t_vars *vars);
+
 #endif

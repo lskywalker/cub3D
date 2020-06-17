@@ -1,0 +1,18 @@
+R 1920 1080
+NO textures/wall_north.png
+SO textures/wall_south.png
+WE textures/wall_west.png
+EA textures/wall_east.png
+S textures/sprite.png
+F 50,0,0
+C 5,9,50
+
+
+11111111111111
+10200200020001
+10000000000001
+10000N00E00001
+10200200020001
+11111111111111
+
+

@@ -6,18 +6,20 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/17 10:24:50 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/27 14:17:50 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/11 16:30:19 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	ft_spritecheck(t_vars *vars, char **sub, char *file, int i)
+int			ft_spritecheck(t_vars *vars, char **sub, char *file, int i)
 {
 	if (file[i] == 'S' && file[i + 1] != 'O')
 	{
 		vars->error->s_found++;
 		sub = ft_split(file, ' ');
+		if (ft_strcmp(sub[0], "S") > 0 || ft_strcmp(sub[0], "S") < 0)
+			ft_error("\e[33mInvalid sprite input\n\e[39m");
 		if (sub[1])
 		{
 			vars->spr->spritetex = sub[1];
@@ -25,13 +27,19 @@ void	ft_spritecheck(t_vars *vars, char **sub, char *file, int i)
 		}
 		else
 			vars->error->s_found++;
+		free(sub[0]);
+		free(sub);
+		return (1);
 	}
+	return (0);
 }
 
-void	ft_fdcheck(t_vars *vars, char *tex, int type)
+void		ft_fdcheck(t_vars *vars, char *tex, int type)
 {
 	int		fd;
 
+	if (ft_checkxpm(tex))
+		ft_error("\e[33mI don't accept XPM files\n\e[39m");
 	fd = open(tex, O_RDONLY);
 	if (fd == -1)
 	{
@@ -53,9 +61,9 @@ void	ft_fdcheck(t_vars *vars, char *tex, int type)
 	close(fd);
 }
 
-int		ft_floorwithcolour(t_vars *vars, char **sub)
+void		ft_floorwithcolour(t_vars *vars, char **sub)
 {
-	int a;
+	int		a;
 
 	a = 0;
 	if (sub[0] && sub[1] && sub[2] && vars->error->f_found == 1)
@@ -70,17 +78,16 @@ int		ft_floorwithcolour(t_vars *vars, char **sub)
 			vars->sc->colours->floor = create_trgb(vars->sc->colours->r,
 			vars->sc->colours->g, vars->sc->colours->b);
 			if (vars->sc->colours->floor == -10)
-				return (-1);
+				ft_error("\e[33mInvalid floorinput\n\e[39m");
 		}
 		else
-			return (-1);
+			ft_error("\e[33mInvalid floorinput\n\e[39m");
 	}
 	else
-		return (-1);
-	return (0);
+		ft_error("\e[33mInvalid floorinput\n\e[39m");
 }
 
-int		ft_ceilingwithcolour(t_vars *vars, char **sub)
+void		ft_ceilingwithcolour(t_vars *vars, char **sub)
 {
 	int a;
 
@@ -97,12 +104,11 @@ int		ft_ceilingwithcolour(t_vars *vars, char **sub)
 			vars->sc->colours->ceiling = create_trgb(vars->sc->colours->r,
 			vars->sc->colours->g, vars->sc->colours->b);
 			if (vars->sc->colours->ceiling == -10)
-				return (-1);
+				ft_error("\e[33mInvalid ceilinginput\n\e[39m");
 		}
 		else
-			return (-1);
+			ft_error("\e[33mInvalid ceilinginput\n\e[39m");
 	}
 	else
-		return (-1);
-	return (0);
+		ft_error("\e[33mInvalid ceilinginput\n\e[39m");
 }

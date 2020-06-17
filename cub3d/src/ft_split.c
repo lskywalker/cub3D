@@ -6,7 +6,7 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/08 10:31:20 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/26 19:27:32 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/05 15:16:34 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int		ft_newstr(char **str, char const *s, char c, int i)
 	return (0);
 }
 
-char			**ft_split(char const *s, char c)
+char			**ft_split(char *s, char c)
 {
 	int		size;
 	int		count;

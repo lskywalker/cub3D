@@ -6,45 +6,19 @@
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/20 10:51:13 by lsmit          #+#    #+#                */
-/*   Updated: 2020/02/28 10:26:17 by lsmit         ########   odam.nl         */
+/*   Updated: 2020/03/10 16:49:47 by lsmit         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	ft_getspritedist(t_vars *vars)
-{
-	double		distx;
-	double		disty;
-	int			i;
-
-	i = 0;
-	while (i < vars->spr->numsprites)
-	{
-		distx = vars->pos->posx - vars->spr->sprite[i][0];
-		if (distx < 0)
-			distx *= -1;
-		disty = vars->pos->posy - vars->spr->sprite[i][1];
-		if (disty < 0)
-			disty *= -1;
-		vars->spr->sprite[i][2] = sqrt((distx * distx) + (disty * disty));
-		i++;
-	}
-}
-
 void	ft_swaparray(t_vars *vars, int i)
 {
-	int		j;
-	double	temp;
+	double *temp;
 
-	j = 0;
-	while (j < 3)
-	{
-		temp = vars->spr->sprite[i][j];
-		vars->spr->sprite[i][j] = vars->spr->sprite[i - 1][j];
-		vars->spr->sprite[i - 1][j] = temp;
-		j++;
-	}
+	temp = vars->spr->sprite[i];
+	vars->spr->sprite[i] = vars->spr->sprite[i - 1];
+	vars->spr->sprite[i - 1] = temp;
 }
 
 void	ft_sortsprites(t_vars *vars)
@@ -69,18 +43,18 @@ void	ft_sortsprites(t_vars *vars)
 	}
 }
 
-void	getspriteimg_addr(t_vars *vars, t_data *img)
+double	sprite(t_vars *vars, int x, int y, double type)
 {
-	img->img_spr = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex,
-	&vars->spr->img_width, &vars->spr->img_height);
-	img->addr_spr = mlx_get_data_addr(img->img_spr, &vars->spr->bitspp_spr,
-	&vars->spr->line_spr, &img->endian);
-	// img->img_spr2 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex2,
-	// &vars->spr->img_width, &vars->spr->img_height);
-	// img->addr_spr2 = mlx_get_data_addr(img->img_spr2, &vars->spr->bitspp_spr2,
-	// &vars->spr->line_spr2, &img->endian);
-	// img->img_spr3 = mlx_png_file_to_image(vars->run->mlx, vars->spr->spritetex3,
-	// &vars->spr->img_width, &vars->spr->img_height);
-	// img->addr_spr3 = mlx_get_data_addr(img->img_spr3, &vars->spr->bitspp_spr3,
-	// &vars->spr->line_spr3, &img->endian);
+	vars->spr->sprite = ft_reallocsprit(vars->spr->sprite,
+	vars->spr->numsprites + 1);
+	if (!vars->spr->sprite)
+		ft_error("\e[33mMalloc failed\n\e[39m");
+	vars->spr->sprite[vars->spr->numsprites] = malloc(sizeof(double*) * 5);
+	if (!vars->spr->sprite[vars->spr->numsprites])
+		ft_error("\e[33mMalloc failed\n\e[39m");
+	vars->spr->sprite[vars->spr->numsprites][0] = x + 0.5;
+	vars->spr->sprite[vars->spr->numsprites][1] = y + 0.5;
+	vars->spr->sprite[vars->spr->numsprites][3] = type;
+	vars->spr->sprite[vars->spr->numsprites][4] = 0;
+	return (0);
 }
