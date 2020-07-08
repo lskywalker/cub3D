@@ -38,14 +38,10 @@ FLAG = -Wall -Wextra -Werror -g
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@cd mlx && make
-	@cp mlx/libmlx.dylib .
 	@$(CC) -Lmlx/ -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJ)
 
 
 bonus: fclean $(BONUS_OBJ)
-	@cd mlx && make
-	@cp mlx/libmlx.dylib .
 	@$(CC) -Lmlx/ -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(BONUS_OBJ) -D BONUS=1
 
 %.o: %.c
@@ -56,7 +52,5 @@ clean:
 
 fclean: clean
 	/bin/rm -f $(NAME)
-	/bin/rm -f libmlx.dylib
-	@cd mlx && make clean
 
 re: fclean all

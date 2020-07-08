@@ -71,15 +71,17 @@ int			ft_outofmap(t_vars *vars, int x, int y)
 	i++;
 	if (i > 80000)
 		ft_error("\e[33mMap is too big\n\e[39m");
-	if (vars->linelen[y + 1] < vars->linelen[y] ||
-	x > vars->linelen[y + 1] || y > vars->mapheight)
+	if (x >= vars->linelen[y + 1])
 		return (1);
 	return (0);
 }
-// IETS MIS HIER MET DE IF STATEMENTS VOOR LINELENGTH ENZO
+// IETS MIS HIER MET DE IF STATEMENTS VOOR LINELENGTH OFZO
 
 void		ft_checkmapvalid(t_vars *vars, int x, int y)
 {
+	printf("x: %i\ny: %i\nlinelen[y] %i\n", x, y, vars->linelen[y]);
+	if (x >= vars->linelen[y])
+		ft_error("\e[33mInvalid map3\n\e[39m");
 	if (vars->map[y][x] == 0 || vars->map[y][x] == 8)
 	{
 		if (ft_outofmap(vars, x, y))
