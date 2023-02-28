@@ -23,7 +23,10 @@ make bonus && ./cub3D scenes/cub3d_bonus.cub
 ```
 
 this should open a new window:
-![Image of Cub3D](https://github.com/lskywalker/cub3D/img/startposition.png)
+
+<p align = "center">
+  <img src ="https://github.com/lskywalker/cub3D/img/startposition.png" width="60%" />
+</p>
 
 ### Controls
 
