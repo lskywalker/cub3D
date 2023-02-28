@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/12 16:15:26 by lsmit          #+#    #+#                */
-/*   Updated: 2020/03/11 16:29:33 by lsmit         ########   odam.nl         */
+/*   Created: 2020/02/12 16:15:26 by lsmit         #+#    #+#                 */
+/*   Updated: 2023/02/28 15:08:18 by lukesmit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		ft_resolutioncheck(t_vars *vars, char **sub, char *file)
 	sub = ft_split(file, ' ');
 	if (ft_strcmp(sub[0], "R") > 0 || ft_strcmp(sub[0], "R") < 0)
 		ft_error("\e[33mInvalid resolution\n\e[39m");
-	if (sub[1] != '\0' && sub[2] != '\0')
+	if (sub[1] != (void *)0 && sub[2] != (void *)0)
 	{
 		if (ft_isnumbers(sub[1], 1) == 1)
 		{
@@ -51,7 +51,7 @@ int			ft_pathcheck2(t_vars *vars, char **sub, char *file, int i)
 		sub = ft_split(file, ' ');
 		if (ft_strcmp(sub[0], "WE") > 0 || ft_strcmp(sub[0], "WE") < 0)
 			ft_error("\e[33mInvalid input for WE texture\n\e[39m");
-		if (sub[1] != '\0')
+		if (sub[1] != (void *)0)
 		{
 			vars->sc->nesw->westtex = sub[1];
 			ft_fdcheck(vars, vars->sc->nesw->westtex, 4);
@@ -77,7 +77,7 @@ int			ft_pathcheck(t_vars *vars, char **sub, char *file, int i)
 		sub = ft_split(file, ' ');
 		if (ft_strcmp(sub[0], "EA") > 0 || ft_strcmp(sub[0], "EA") < 0)
 			ft_error("\e[33mInvalid input for EA texture\n\e[39m");
-		if (sub[1] != '\0')
+		if (sub[1] != (void *)0)
 		{
 			vars->sc->nesw->easttex = sub[1];
 			ft_fdcheck(vars, vars->sc->nesw->easttex, 2);

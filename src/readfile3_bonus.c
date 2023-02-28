@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/12 16:15:26 by lsmit          #+#    #+#                */
-/*   Updated: 2020/03/11 16:31:18 by lsmit         ########   odam.nl         */
+/*   Created: 2020/02/12 16:15:26 by lsmit         #+#    #+#                 */
+/*   Updated: 2023/02/28 15:11:06 by lukesmit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			ft_northpath(char *file, char **sub, int i, t_vars *vars)
 		sub = ft_split(file, ' ');
 		if (ft_strcmp(sub[0], "NO") > 0 || ft_strcmp(sub[0], "NO") < 0)
 			ft_error("\e[33mInvalid input for NO texture\n\e[39m");
-		if (sub[1] != '\0')
+		if (sub[1] != (void *)0)
 		{
 			vars->sc->nesw->northtex = sub[1];
 			ft_fdcheck(vars, vars->sc->nesw->northtex, 1);
@@ -42,7 +42,7 @@ int			ft_southpath(char *file, char **sub, int i, t_vars *vars)
 		sub = ft_split(file, ' ');
 		if (ft_strcmp(sub[0], "SO") > 0 || ft_strcmp(sub[0], "SO") < 0)
 			ft_error("\e[33mInvalid input for SO texture\n\e[39m");
-		if (sub[1] != '\0')
+		if (sub[1] != (void *)0)
 		{
 			vars->sc->nesw->southtex = sub[1];
 			ft_fdcheck(vars, vars->sc->nesw->southtex, 3);

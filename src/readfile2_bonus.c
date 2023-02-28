@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: lsmit <lsmit@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/17 10:24:50 by lsmit          #+#    #+#                */
-/*   Updated: 2020/03/11 16:30:19 by lsmit         ########   odam.nl         */
+/*   Created: 2020/02/17 10:24:50 by lsmit         #+#    #+#                 */
+/*   Updated: 2023/02/28 15:10:14 by lukesmit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		ft_floorwithcolour(t_vars *vars, char **sub)
 	if (sub[0] && sub[1] && sub[2] && vars->error->f_found == 1)
 	{
 		while (a < 3)
-			a = (ft_validcolours(sub[a]) == 1) ? a += 1 : 10;
+			a = (ft_validcolours(sub[a]) == 1) ? a + 1 : 10;
 		if (a == 3)
 		{
 			vars->sc->colours->r = ft_atoi(sub[0]);
@@ -95,7 +95,7 @@ void		ft_ceilingwithcolour(t_vars *vars, char **sub)
 	if (sub[0] && sub[1] && sub[2] && vars->error->c_found == 1)
 	{
 		while (a < 3)
-			a = (ft_validcolours(sub[a]) == 1) ? a += 1 : 10;
+			a = (ft_validcolours(sub[a]) == 1) ? a + 1 : 10;
 		if (a == 3)
 		{
 			vars->sc->colours->r = ft_atoi(sub[0]);
