@@ -25,7 +25,7 @@ make bonus && ./cub3D scenes/cub3d_bonus.cub
 this should open a new window:
 
 <p align = "center">
-  <img src ="https://github.com/lskywalker/cub3D/img/startposition.png" width="60%" />
+  <img src ="https://github.com/lskywalker/cub3D/blob/master/img/startposition.png" width="60%" />
 </p>
 
 ### Controls
@@ -45,10 +45,14 @@ this should open a new window:
 
 You woke up in a dark and scary maze.
 Try to the collect all the coins to get 100 points!
-![Image of Coin](https://github.com/lskywalker/cub3D/img/coinexample.png)
+<p align = "center">
+  <img src="https://github.com/lskywalker/cub3D/blob/master/img/coinexample.png" width="60%" />
+</p>
 
 Watch out for the scary nuns in the maze who will try to kill you if you get too close.
-![Image of Nun](https://github.com/lskywalker/cub3D/img/thenunexample.png)
+<p align = "center">
+  <img src="https://github.com/lskywalker/cub3D/blob/master/img/thenunexample.png" width="60%" />
+</p>
 
 If you do encounter a nun you can try to kill it, but becareful! They will hurt you!
 
